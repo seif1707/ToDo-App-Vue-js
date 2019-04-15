@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div id="tasks" class="container">
+            <h1>Tasks To Do</h1>
+            <div class="input_container">
+                <input type="text" v-model="taskTodo">
+                <button @click="addTask">Add</button>
+            </div>
+            <div class="error_label" v-if="showError"> You Must Enter a Task</div>
+            <div class="list_of_names">
+                    <div v-for="(task,index) in tasks"
+                          :key="index"
+                          @dblclick.prevent="removeTask(index)"
+                          :class="{'disabled' : done}"
+                          @click.prevent="taskDone()">
+                          {{task}}
+                        </div>
+                </div>
+        </div>
+        
+        
+       
+    </div>
+</body>
+
+<script>
+new Vue({
+el:"#app",
+data:{
+      taskTodo:'',
+      tasks:[],
+      showError:false,
+      done:false
+     },
+    methods:{
+        addTask(){
+
+            if(this.validate(this.taskTodo)){
+                this.tasks.push(this.taskTodo);
+                this.taskTodo = '';
+                this.showError = false;
+            }
+            else{
+                this.showError = true;
+                }
+        }, 
+        validate(value){
+            if(value !== ''){
+                return true
+            }else{
+                return false
+            }
+        },
+        removeTask(index){
+            this.tasks.splice(index,1)
+        },
+        taskDone(){
+            this.done = !this.done
+        }
+    },
+})
+</script>
+</html> 
